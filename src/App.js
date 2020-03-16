@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useReducer } from 'react';
 import './App.css';
+import DragDrop from './components/DragDrop';
+import { drop } from './reducers/useReducers';
 
 function App() {
+
+  const data = { 
+    dropDepth: 0,
+    inDropZone: false,
+    fileList: [] 
+  }
+
+  const [state, dispatch] = useReducer(drop, data);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Drag and drop HTML API</h1>
+      <DragDrop 
+        data={state}
+        dispatch={dispatch}
+      />
+      <ul className='dropped-files'>
+        {
+          state.fileList.map(file => <li key={file.name}>{file.name}</li>)
+        }
+      </ul>
     </div>
   );
 }
