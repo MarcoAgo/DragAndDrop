@@ -1,28 +1,24 @@
-import React, { useReducer } from 'react';
+import React, { useContext } from 'react';
 import './App.css';
 import DragDrop from './components/DragDrop';
-import { drop } from './reducers/useReducers';
+import { store } from './store';
 
 function App() {
+  const globalState = useContext(store);
+  const { state, dispatch } = globalState;
 
-  const data = { 
-    dropDepth: 0,
-    inDropZone: false,
-    fileList: [] 
-  }
-
-  const [state, dispatch] = useReducer(drop, data);
+  console.log(state);
 
   return (
     <div className="App">
       <h1>Drag and drop HTML API</h1>
       <DragDrop 
-        data={state}
+        data={state.drop}
         dispatch={dispatch}
       />
       <ul className='dropped-files'>
         {
-          state.fileList.map(file => <li key={file.name}>{file.name}</li>)
+          state.drop.fileList.map(file => <li key={file.name}>{file.name}</li>)
         }
       </ul>
     </div>
